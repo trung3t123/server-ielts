@@ -5,9 +5,10 @@ from flask_cors import CORS
 from sqlalchemy import func
 from sqlalchemy import text
 import os 
+import psycopg2
 
 app = Flask(__name__)
-app.config['DATABASE_URL'] = 'postgresql://trung:trung@localhost/englishQuest'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://kgyneoeahfxmrh:48f61df91600151f9cf9b683e607682cc943d3ed6651ada65313e50a19785be4@ec2-174-129-254-220.compute-1.amazonaws.com:5432/d8olqmeg97mujn'
 app.config['SQLALCHEMY_TRACKING_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
