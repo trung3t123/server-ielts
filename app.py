@@ -68,7 +68,7 @@ def showquestion():
     question = Question.query.all()
     result = questions_schema.jsonify(question)
     return result
-
+#uninstalled unusing package
 # asdaDSdsafaf
 
 if __name__ == '__main__':
