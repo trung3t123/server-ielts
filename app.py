@@ -20,11 +20,14 @@ class Student(db.Model) :
     username = db.Column(db.String(50))
     password = db.Column(db.String(20))
     marks = db.Column(db.Integer)
+    email = db.Column(db.String(50))
+    
 
-    def __init__(self, username,password,marks):
+    def __init__(self, username,password,marks,email):
         self.username = username
         self.password = password
         self.marks = marks
+        self.email = email
 
 class Question(db.Model):
     questionid = db.Column(db.Integer,primary_key= True)
@@ -53,15 +56,12 @@ class QuestionSchema(ma.Schema):
 
 class StudentSchema(ma.Schema):
      class Meta : 
-        fields = ('studentid', 'username', 'password','marks')
+        fields = ('studentid', 'username', 'password','marks','email')
 
-
-
-engquest_schema = StudentSchema()
-engquests_schema = StudentSchema(many = True)
+student_schema = StudentSchema()
+students_schema = StudentSchema(many = True)
 question_schema = QuestionSchema()
 questions_schema = QuestionSchema(many= True)
-
 
 @app.route('/showquestion', methods = ['GET'])
 def showquestion():
@@ -70,6 +70,16 @@ def showquestion():
     return result
 #uninstalled unusing package
 # asdaDSdsafaf
+
+@app.route('/loginStudentName=<StudentName>',methods =['GET'])
+def login(StudentName):
+    student = Student.query.filter_by(username = StudentName).first()
+    result = student_schema.jsonify(student)
+    return result
+
+# @app.route('/register',methods = ['POST'])
+# def register(username,password,marks,email):
+#     student = Student()
 
 if __name__ == '__main__':
     app.run(debug=True)
