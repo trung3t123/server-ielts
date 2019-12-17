@@ -83,9 +83,12 @@ def login(StudentName):
     result = student_schema.jsonify(student)
     return result
 
-# @app.route('/register',methods = ['POST'])
-# def register(username,password,marks,email):
-#     student = Student()
+@app.route('/api/register',methods = ['POST'])
+def register():
+   user = users(name =request.json["name"],email = request.json["email"],password = request.json["password"])
+   db.session.add(user)
+   db.session.commit()
+   return user
 
 if __name__ == '__main__':
     app.run(debug=True)
