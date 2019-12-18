@@ -70,7 +70,7 @@ def showquestion():
     return result
 
 @app.route('/API/show80Question', methods = ['GET'])
-def show5Question():
+def show80Question():
     question = Question.query.order_by(func.random()).limit(80).all()
     result = questions_schema.jsonify(question)
     return result
