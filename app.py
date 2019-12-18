@@ -91,7 +91,7 @@ def login(StudentName):
 
 @app.route('/api/register',methods = ['POST'])
 def register():
-   user = users(name =request.json["name"],email = request.json["email"],password = request.json["password"])
+   user = users(name =request.json["username"],email = request.json["email"],password = request.json["password"])
    db.session.add(user)
    db.session.commit()
    return 'data update'
