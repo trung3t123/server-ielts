@@ -77,6 +77,12 @@ def show5Question():
 #uninstalled unusing package
 # asdaDSdsafaf
 
+@app.route('/API/show5Question', methods = ['GET'])
+def show5Question():
+    question = Question.query.order_by(func.random()).limit(5).all()
+    result = questions_schema.jsonify(question)
+    return result
+
 @app.route('/loginStudentName=<StudentName>',methods =['GET'])
 def login(StudentName):
     student = Student.query.filter_by(username = StudentName).first()
