@@ -23,10 +23,9 @@ class Student(db.Model) :
     email = db.Column(db.String(50))
     
 
-    def __init__(self, username,password,marks,email):
+    def __init__(self, username,password,email):
         self.username = username
         self.password = password
-        self.marks = marks
         self.email = email
 
 class Question(db.Model):
@@ -91,7 +90,7 @@ def login(StudentName):
 
 @app.route('/api/register',methods = ['POST'])
 def register():
-   student = Student(username =request.json["username"],marks=0,email = request.json["email"],password = request.json["password"])
+   student = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
    db.session.add(student)
    db.session.commit()
    return '<p>Data update</p>'
