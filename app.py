@@ -94,7 +94,7 @@ def register():
    student = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
    db.session.add(student)
    db.session.commit()
-   return 'data update'
+   return '<p>Data update</p>'
 
 
 # @app.route('/register',methods = ['POST'])
