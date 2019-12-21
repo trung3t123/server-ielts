@@ -91,15 +91,10 @@ def login(StudentName):
 
 @app.route('/api/register',methods = ['POST'])
 def register():
-   student = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
+   student = Student(username =request.json["username"],marks=0,email = request.json["email"],password = request.json["password"])
    db.session.add(student)
    db.session.commit()
    return '<p>Data update</p>'
-
-
-# @app.route('/register',methods = ['POST'])
-# def register(username,password,marks,email):
-#     student = Student()
 
 if __name__ == '__main__':
     app.run(debug=True)
