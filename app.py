@@ -70,12 +70,18 @@ def showquestion():
     return result
 
 @app.route('/API/show80Question', methods = ['GET'])
-def show5Question():
+def show80Question():
     question = Question.query.order_by(func.random()).limit(80).all()
     result = questions_schema.jsonify(question)
     return result
 #uninstalled unusing package
 # asdaDSdsafaf
+
+@app.route('/API/show5Question', methods = ['GET'])
+def show5Question():
+    question = Question.query.order_by(func.random()).limit(5).all()
+    result = questions_schema.jsonify(question)
+    return result
 
 @app.route('/loginStudentName=<StudentName>',methods =['GET'])
 def login(StudentName):
@@ -83,7 +89,17 @@ def login(StudentName):
     result = student_schema.jsonify(student)
     return result
 
+@app.route('/api/register',methods = ['POST'])
+def register():
+   student = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
+   db.session.add(student)
+   db.session.commit()
+   return 'data update'
 
+
+# @app.route('/register',methods = ['POST'])
+# def register(username,password,marks,email):
+#     student = Student()
 
 if __name__ == '__main__':
     app.run(debug=True)
