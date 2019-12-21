@@ -94,6 +94,10 @@ def register():
    db.session.add(student)
    db.session.commit()
    return '<p>Data update</p>'
-
+@app.route('/api/show-question-topic=<categoryid>', methods = ['GET'])
+def show10Question(categoryid):
+   questions = Question.query.filter_by(categoryid = categoryid).order_by(func.random()).limit(10).all()
+   result = questions_schema.jsonify(questions)
+   return result
 if __name__ == '__main__':
     app.run(debug=True)
