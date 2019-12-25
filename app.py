@@ -1,10 +1,10 @@
-from flask import Flask,request,jsonify
+from flask import Flask, request, jsonify
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy import func
 from sqlalchemy import text
-import os 
+import os
 import psycopg2
 
 app = Flask(__name__)
@@ -15,22 +15,23 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 CORS(app)
 
-class Student(db.Model) :
-    studentid = db.Column(db.Integer,primary_key = True)
+
+class Student(db.Model):
+    studentid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50))
     password = db.Column(db.String(20))
     marks = db.Column(db.Integer)
     email = db.Column(db.String(50))
-    
 
-    def __init__(self, username,password,marks,email):
+    def __init__(self, username, password, marks, email):
         self.username = username
         self.password = password
         self.marks = marks
         self.email = email
 
+
 class Question(db.Model):
-    questionid = db.Column(db.Integer,primary_key= True)
+    questionid = db.Column(db.Integer, primary_key=True)
     categoryid = db.Column(db.Integer)
     content = db.Column(db.String(300))
     correctanswer = db.Column(db.String(100))
@@ -39,8 +40,8 @@ class Question(db.Model):
     answerc = db.Column(db.String(100))
     answerd = db.Column(db.String(100))
 
-    def __init__(self, questionid, categoryid, mark,content,correctanswer,answera,answerb,answerc,answerd):
-        self.questionid =questionid
+    def __init__(self, questionid, categoryid, mark, content, correctanswer, answera, answerb, answerc, answerd):
+        self.questionid = questionid
         self.categoryid = categoryid
         self.content = content
         self.correctanswer = correctanswer
@@ -48,58 +49,69 @@ class Question(db.Model):
         self.answerb = answerb
         self.answerc = answerc
         self.answerd = answerd
-  
+
 
 class QuestionSchema(ma.Schema):
-    class Meta: 
-        fields = ('questionid','categoryid','content','correctanswer','answera','answerb','answerc','answerd')
+    class Meta:
+        fields = ('questionid', 'categoryid', 'content',
+                  'correctanswer', 'answera', 'answerb', 'answerc', 'answerd')
+
 
 class StudentSchema(ma.Schema):
-     class Meta : 
-        fields = ('studentid', 'username', 'password','marks','email')
+    class Meta:
+        fields = ('studentid', 'username', 'password', 'marks', 'email')
+
 
 student_schema = StudentSchema()
-students_schema = StudentSchema(many = True)
+students_schema = StudentSchema(many=True)
 question_schema = QuestionSchema()
-questions_schema = QuestionSchema(many= True)
+questions_schema = QuestionSchema(many=True)
 
-@app.route('/showquestion', methods = ['GET'])
+
+@app.route('/showquestion', methods=['GET'])
 def showquestion():
     question = Question.query.all()
     result = questions_schema.jsonify(question)
     return result
 
-@app.route('/API/show80Question', methods = ['GET'])
+
+@app.route('/API/show80Question', methods=['GET'])
 def show80Question():
     question = Question.query.order_by(func.random()).limit(80).all()
     result = questions_schema.jsonify(question)
     return result
-#uninstalled unusing package
+# uninstalled unusing package
 # asdaDSdsafaf
 
-@app.route('/API/show5Question', methods = ['GET'])
+
+@app.route('/API/show5Question', methods=['GET'])
 def show5Question():
     question = Question.query.order_by(func.random()).limit(5).all()
     result = questions_schema.jsonify(question)
     return result
 
-@app.route('/loginStudentName=<StudentName>',methods =['GET'])
+
+@app.route('/loginStudentName=<StudentName>', methods=['GET'])
 def login(StudentName):
-    student = Student.query.filter_by(username = StudentName).first()
+    student = Student.query.filter_by(username=StudentName).first()
     result = student_schema.jsonify(student)
     return result
 
-@app.route('/api/register',methods = ['POST'])
+
+@app.route('/api/register', methods=['POST'])
 def register():
-   user = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
-   db.session.add(user)
-   db.session.commit()
-   return '<p>Data update</p>'
+    user = Student(username=request.json["username"],
+                   email=request.json["email"], password=request.json["password"])
+    db.session.add(user)
+    db.session.commit()
+    return '<p>Data update</p>'
 
-
-# @app.route('/register',methods = ['POST'])
-# def register(username,password,marks,email):
-#     student = Student()
+@app.route('/api/testQuestions', methods=['GET'])
+def testQuestions():
+    question = (Question.query.order_by(func.random()).filter_by(categoryid="1").limit(2).all()).join(Question).filter_by(categoryid="2")
+    # session.query(Customer).join(Invoice).filter(Invoice.amount == 8500)
+    result = questions_schema.jsonify(question)
+    return result
 
 if __name__ == '__main__':
     app.run(debug=True)
