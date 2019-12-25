@@ -112,7 +112,11 @@ def show10Question(categoryid):
    
 @app.route('/api/testQuestions', methods=['GET'])
 def testQuestions():
-    question = (Question.query.order_by(func.random()).filter_by(categoryid="1").limit(2).all()).join(Question).filter_by(categoryid="2")
+    question1 = Question.query.order_by(func.random()).filter_by(categoryid="1").limit(15).all()
+    question2 = Question.query.order_by(func.random()).filter_by(categoryid="2").limit(15).all()
+    question3 = Question.query.order_by(func.random()).filter_by(categoryid="3").limit(15).all()
+    question = question1 + question2 + question3
+
     # session.query(Customer).join(Invoice).filter(Invoice.amount == 8500)
     result = questions_schema.jsonify(question)
     return result
