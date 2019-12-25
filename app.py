@@ -23,10 +23,9 @@ class Student(db.Model):
     marks = db.Column(db.Integer)
     email = db.Column(db.String(50))
 
-    def __init__(self, username, password, marks, email):
+    def __init__(self, username,password,email):
         self.username = username
         self.password = password
-        self.marks = marks
         self.email = email
 
 
@@ -97,21 +96,25 @@ def login(StudentName):
     result = student_schema.jsonify(student)
     return result
 
-
-@app.route('/api/register', methods=['POST'])
+@app.route('/api/register',methods = ['POST'])
 def register():
-    user = Student(username=request.json["username"],
-                   email=request.json["email"], password=request.json["password"])
-    db.session.add(user)
-    db.session.commit()
-    return '<p>Data update</p>'
+   student = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
+   db.session.add(student)
+   db.session.commit()
+   return '<p>Data update</p>'
 
+@app.route('/api/show-question-topic=<categoryid>', methods = ['GET'])
+def show10Question(categoryid):
+   questions = Question.query.filter_by(categoryid = categoryid).order_by(func.random()).limit(10).all()
+   result = questions_schema.jsonify(questions)
+   return result
+
+   
 @app.route('/api/testQuestions', methods=['GET'])
 def testQuestions():
     question = (Question.query.order_by(func.random()).filter_by(categoryid="1").limit(2).all()).join(Question).filter_by(categoryid="2")
     # session.query(Customer).join(Invoice).filter(Invoice.amount == 8500)
     result = questions_schema.jsonify(question)
     return result
-
 if __name__ == '__main__':
     app.run(debug=True)
