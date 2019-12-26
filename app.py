@@ -20,7 +20,6 @@ class Student(db.Model):
     studentid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50))
     password = db.Column(db.String(20))
-    marks = db.Column(db.Integer)
     email = db.Column(db.String(50))
 
     def __init__(self, username,password,email):
@@ -58,7 +57,7 @@ class QuestionSchema(ma.Schema):
 
 class StudentSchema(ma.Schema):
     class Meta:
-        fields = ('studentid', 'username', 'password', 'marks', 'email')
+        fields = ('studentid', 'username', 'password', 'email')
 
 
 student_schema = StudentSchema()
