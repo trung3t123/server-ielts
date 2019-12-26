@@ -16,6 +16,7 @@ ma = Marshmallow(app)
 CORS(app)
 
 
+
 class Student(db.Model):
     studentid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50))
@@ -119,5 +120,7 @@ def testQuestions():
     # session.query(Customer).join(Invoice).filter(Invoice.amount == 8500)
     result = questions_schema.jsonify(question)
     return result
+
+
 if __name__ == '__main__':
     app.run(debug=True)
