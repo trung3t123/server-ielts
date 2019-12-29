@@ -16,6 +16,7 @@ ma = Marshmallow(app)
 CORS(app)
 
 
+
 class Student(db.Model):
     studentid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50))
