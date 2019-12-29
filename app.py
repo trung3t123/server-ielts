@@ -138,7 +138,7 @@ def insertMark():
    mark = Record(studentid =request.json["studentId"],date = request.json["date"],marks = request.json["marks"])
    db.session.add(mark)
    db.session.commit()
-   return 'Insert successed'
+   return '<p>Data update</p>'
 if __name__ == '__main__':
     
     app.run(debug=True)
