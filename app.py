@@ -133,12 +133,12 @@ def testQuestions():
     result = questions_schema.jsonify(question)
     return result
 
-@app.route('/api/insert_mark',methods = ['POST'])
-def register():
-   mark = Record(studentid =request.json["studentId"],date = request.json["date"],marks = request.json["marks"])
-   db.session.add(mark)
-   db.session.commit()
-   return 'Insert successed'
+# @app.route('/api/insert_mark',methods = ['POST'])
+# def register():
+#    mark = Record(studentid =request.json["studentId"],date = request.json["date"],marks = request.json["marks"])
+#    db.session.add(mark)
+#    db.session.commit()
+#    return 'Insert successed'
 if __name__ == '__main__':
     
     app.run(debug=True)
