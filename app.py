@@ -29,6 +29,10 @@ class Student(db.Model):
         self.email = email
 
 
+class StudentSchema(ma.Schema):
+    class Meta:
+        fields = ('studentid', 'username', 'password', 'email')
+
 class Question(db.Model):
     questionid = db.Column(db.Integer, primary_key=True)
     categoryid = db.Column(db.Integer)
@@ -49,17 +53,25 @@ class Question(db.Model):
         self.answerc = answerc
         self.answerd = answerd
 
-
 class QuestionSchema(ma.Schema):
     class Meta:
         fields = ('questionid', 'categoryid', 'content',
                   'correctanswer', 'answera', 'answerb', 'answerc', 'answerd')
 
+class Record(db.Model):
+    recordid = db.Column(db.Integer, primary_key = True)
+    studentid = db.Column(db.Integer)
+    date = db.Column(db.DateTime)
+    marks = db.Column(db.Integer)
 
-class StudentSchema(ma.Schema):
+    def __init__(self, studentid, date, marks):
+        self.studentid = studentid
+        self.date = date
+        self.marks = marks
+
+class RecordSchema(ma.Schema):
     class Meta:
-        fields = ('studentid', 'username', 'password', 'email')
-
+        fields = ('studentid', 'date', 'point')
 
 student_schema = StudentSchema()
 students_schema = StudentSchema(many=True)
@@ -121,8 +133,19 @@ def testQuestions():
     result = questions_schema.jsonify(question)
     return result
 
+<<<<<<< HEAD
 # ádasdad
 # ádasdasd
 
+=======
+@app.route('/api/insert_mark',methods = ['POST'])
+def insertMark():
+   mark = Record(studentid =request.json["studentId"],date = request.json["date"],marks = request.json["marks"])
+   db.session.add(mark)
+   db.session.commit()
+   return '<p>Data update</p>'
+>>>>>>> 43a2902a36e16260f830ccdfca89f231686b7962
 if __name__ == '__main__':
+    
     app.run(debug=True)
+    
