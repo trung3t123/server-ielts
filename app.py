@@ -133,18 +133,12 @@ def testQuestions():
     result = questions_schema.jsonify(question)
     return result
 
-<<<<<<< HEAD
-# ádasdad
-# ádasdasd
-
-=======
 @app.route('/api/insert_mark',methods = ['POST'])
 def insertMark():
    mark = Record(studentid =request.json["studentId"],date = request.json["date"],marks = request.json["marks"])
    db.session.add(mark)
    db.session.commit()
    return '<p>Data update</p>'
->>>>>>> 43a2902a36e16260f830ccdfca89f231686b7962
 if __name__ == '__main__':
     
     app.run(debug=True)
