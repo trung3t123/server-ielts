@@ -61,7 +61,7 @@ class QuestionSchema(ma.Schema):
 class Record(db.Model):
     recordid = db.Column(db.Integer, primary_key = True)
     studentid = db.Column(db.Integer)
-    date = db.Column(db.DateTime)
+    date = db.Column(db.String(30))
     marks = db.Column(db.Integer)
 
     def __init__(self, studentid, date, marks):
