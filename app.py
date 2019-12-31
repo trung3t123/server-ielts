@@ -9,6 +9,8 @@ import psycopg2
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://shnzpkrlakzyac:3dda21e6291cc2a070f7982051212ba2bee431042e657ea65a09328472d93fcb@ec2-174-129-255-39.compute-1.amazonaws.com:5432/d9719hkdsnjnvn'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/khanhdb'
+
 app.config['SQLALCHEMY_TRACKING_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -113,10 +115,10 @@ def login(StudentName):
 
 @app.route('/api/register',methods = ['POST'])
 def register():
-   student = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
-   db.session.add(student)
-   db.session.commit()
-   return '<p>Data update</p>'
+    student = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
+    db.session.add(student)
+    db.session.commit()
+    return '<p>Data update</p>'
 
 @app.route('/api/show-question-topic=<categoryid>', methods = ['GET'])
 def show10Question(categoryid):
@@ -142,7 +144,7 @@ def insertMark():
    db.session.add(mark)
    db.session.commit()
    return '<p>Data update</p>'
+
 if __name__ == '__main__':
-    
     app.run(debug=True)
     
