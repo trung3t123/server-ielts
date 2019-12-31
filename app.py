@@ -71,7 +71,10 @@ class Record(db.Model):
 
 class RecordSchema(ma.Schema):
     class Meta:
-        fields = ('studentid', 'date', 'point')
+        fields = ('studentid', 'date', 'marks')
+
+record_schema = RecordSchema()
+records_schema = RecordSchema(many=True)
 
 student_schema = StudentSchema()
 students_schema = StudentSchema(many=True)
