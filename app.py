@@ -90,7 +90,7 @@ def showquestion():
     result = questions_schema.jsonify(question)
     return result
 
-@app.route('/showTrainingQuestion=<categoryid>', methods =['GET'])
+@app.route('/api/showTrainingQuestion=<categoryid>', methods =['GET'])
 def showTrainingQuestion(categoryid): 
     question =Question.query.filter_by(categoryid = categoryid).order_by(func.random()).limit(5).all()
     result = questions_schema.jsonify(question)
