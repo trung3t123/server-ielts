@@ -9,6 +9,8 @@ import psycopg2
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://shnzpkrlakzyac:3dda21e6291cc2a070f7982051212ba2bee431042e657ea65a09328472d93fcb@ec2-174-129-255-39.compute-1.amazonaws.com:5432/d9719hkdsnjnvn'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/khanhdb'
+
 app.config['SQLALCHEMY_TRACKING_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -61,7 +63,7 @@ class QuestionSchema(ma.Schema):
 class Record(db.Model):
     recordid = db.Column(db.Integer, primary_key = True)
     studentid = db.Column(db.Integer)
-    date = db.Column(db.DateTime)
+    date = db.Column(db.String(30))
     marks = db.Column(db.Integer)
 
     def __init__(self, studentid, date, marks):
@@ -71,7 +73,10 @@ class Record(db.Model):
 
 class RecordSchema(ma.Schema):
     class Meta:
-        fields = ('studentid', 'date', 'point')
+        fields = ('studentid', 'date', 'marks')
+
+record_schema = RecordSchema()
+records_schema = RecordSchema(many=True)
 
 student_schema = StudentSchema()
 students_schema = StudentSchema(many=True)
@@ -116,10 +121,10 @@ def login(StudentName):
 
 @app.route('/api/register',methods = ['POST'])
 def register():
-   student = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
-   db.session.add(student)
-   db.session.commit()
-   return '<p>Data update</p>'
+    student = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
+    db.session.add(student)
+    db.session.commit()
+    return '<p>Data update</p>'
 
 @app.route('/api/show-question-topic=<categoryid>', methods = ['GET'])
 def show10Question(categoryid):
@@ -145,7 +150,7 @@ def insertMark():
    db.session.add(mark)
    db.session.commit()
    return '<p>Data update</p>'
+
 if __name__ == '__main__':
-    
     app.run(debug=True)
     
