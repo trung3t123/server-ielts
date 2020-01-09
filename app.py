@@ -145,7 +145,7 @@ def testQuestions():
 #api insert mark to db
 @app.route('/api/insert_mark',methods = ['POST'])
 def insertMark():
-   mark = Record(studentid =request.json["studentId"],date = request.json["date"],marks = request.json["marks"])
+   mark = Record(studentid =request.json["studentid"],date = request.json["date"],marks = request.json["marks"])
    db.session.add(mark)
    db.session.commit()
    return '<p>Data update</p>'
