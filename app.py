@@ -152,7 +152,7 @@ def insertMark():
 #api get test history
 @app.route('/api/show-history=<userId>', methods = ['GET'])
 def showHistory(userId):
-   marks = Record.query.filter_by(userId = studentid).order_by(date).all()
+   marks = Record.query.filter_by(userId = studentid).all()
    result = records_schema.jsonify(marks)
    return result
 #api get mark oder by descending
