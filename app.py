@@ -4,20 +4,18 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy import func
 from sqlalchemy import text
+from sqlalchemy import desc
 import os
 import psycopg2
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://shnzpkrlakzyac:3dda21e6291cc2a070f7982051212ba2bee431042e657ea65a09328472d93fcb@ec2-174-129-255-39.compute-1.amazonaws.com:5432/d9719hkdsnjnvn'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/khanhdb'
-
 app.config['SQLALCHEMY_TRACKING_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 CORS(app)
-
-
 
 class Student(db.Model):
     studentid = db.Column(db.Integer, primary_key=True)
@@ -29,7 +27,6 @@ class Student(db.Model):
         self.username = username
         self.password = password
         self.email = email
-
 
 class StudentSchema(ma.Schema):
     class Meta:
@@ -119,6 +116,7 @@ def login(StudentName):
     result = student_schema.jsonify(student)
     return result
 
+#api register
 @app.route('/api/register',methods = ['POST'])
 def register():
     student = Student(username =request.json["username"],email = request.json["email"],password = request.json["password"])
@@ -144,12 +142,25 @@ def testQuestions():
     result = questions_schema.jsonify(question)
     return result
 
+#api insert mark to db
 @app.route('/api/insert_mark',methods = ['POST'])
 def insertMark():
    mark = Record(studentid =request.json["studentId"],date = request.json["date"],marks = request.json["marks"])
    db.session.add(mark)
    db.session.commit()
    return '<p>Data update</p>'
+#api get test history
+@app.route('/api/show-history=<userId>', methods = ['GET'])
+def showHistory(userId):
+   marks = Record.query.filter_by(userId = studentid).order_by(date).all()
+   result = records_schema.jsonify(marks)
+   return result
+#api get mark oder by descending
+@app.route('/api/show-all-mark', methods = ['GET'])
+def showAllMarks():
+   marks = Record.query.order_by(desc(Record.marks)).all()
+   result = records_schema.jsonify(marks)
+   return result
 
 if __name__ == '__main__':
     app.run(debug=True)
