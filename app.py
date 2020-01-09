@@ -164,7 +164,7 @@ def showAllMarks():
 
 @app.route('/api/get-user-with-id=<userId>', methods=['GET'])
 def getUser(userId):
-    student = Student.query.filter_by(studentid=userId).first()
+    student = Student.query.filter_by(studentid=userId).all()
     result = student_schema.jsonify(student)
     return result
 
