@@ -162,6 +162,12 @@ def showAllMarks():
    result = records_schema.jsonify(marks)
    return result
 
+@app.route('/api/get-user-with-id=<userId>', methods=['GET'])
+def login(userId):
+    student = Student.query.filter_by(studentid=userId).first()
+    result = student_schema.jsonify(student)
+    return result
+
 if __name__ == '__main__':
     app.run(debug=True)
     
