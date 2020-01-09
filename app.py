@@ -158,7 +158,7 @@ def showHistory(userId):
 #api get mark oder by descending
 @app.route('/api/show-all-mark', methods = ['GET'])
 def showAllMarks():
-   marks = Record.query.order_by(desc(Record.marks)).all()
+   marks = Record.query.order_by(desc(Record.marks)).limit(10).all()
    result = records_schema.jsonify(marks)
    return result
 
