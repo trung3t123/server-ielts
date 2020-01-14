@@ -170,7 +170,7 @@ def getUser(userId):
 #api change password
 @app.route('/api/change_password',methods = ['POST'])
 def changePassword():
-    userUpdate = Student.query.filter_by(studentid=request.json["studentid"]).update(dict(password=request.json["studentid"]))
+    userUpdate = Student.query.filter_by(studentid=request.json["studentid"]).update(dict(password=request.json["password"]))
     db.session.commit()
 if __name__ == '__main__':
     app.run(debug=True)
